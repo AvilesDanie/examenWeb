@@ -1,0 +1,8 @@
+version: '3'
+services:
+  ventas:
+    build: .
+    ports:
+      - "${PUERTO_VENTAS}:${PUERTO_VENTAS}"
+    env_file:
+      - .env

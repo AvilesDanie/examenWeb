@@ -1,0 +1,52 @@
+version: '3'
+services:
+  consul:
+    image: consul:1.10.0
+    ports:
+      - "${PUERTO_CONSUL}:${PUERTO_CONSUL}"
+    networks:
+      - RedP
+    command: consul agent -dev -client=0.0.0.0
+
+  ventas:
+    build: ./ventas
+    ports:
+      - "${PUERTO_VENTAS}:${PUERTO_VENTAS}"
+    networks:
+      RedP:
+        ipv4_address: ${IP_VENTAS}
+    env_file:
+      - ./ventas/.env
+    depends_on:
+      - consul
+
+  clientes:
+    build: ./clientes
+    ports:
+      - "${PUERTO_CLIENTES}:${PUERTO_CLIENTES}"
+    networks:
+      RedP:
+        ipv4_address: ${IP_CLIENTES}
+    env_file:
+      - ./clientes/.env
+    depends_on:
+      - consul
+
+  inventario:
+    build: ./inventario
+    ports:
+      - "${PUERTO_INVENTARIO}:${PUERTO_INVENTARIO}"
+    networks:
+      RedP:
+        ipv4_address: ${IP_INVENTARIO}
+    env_file:
+      - ./inventario/.env
+    depends_on:
+      - consul
+
+networks:
+  RedP:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET}

@@ -1,0 +1,8 @@
+version: '3'
+services:
+  clientes:
+    build: .
+    ports:
+      - "${PUERTO_CLIENTES}:${PUERTO_CLIENTES}"
+    env_file:
+      - .env

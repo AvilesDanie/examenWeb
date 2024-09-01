@@ -1,0 +1,8 @@
+version: '3'
+services:
+  inventario:
+    build: .
+    ports:
+      - "${PUERTO_INVENTARIO}:${PUERTO_INVENTARIO}"
+    env_file:
+      - .env
